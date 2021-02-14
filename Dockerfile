@@ -12,4 +12,4 @@ ENV PORT 8081
 
 EXPOSE ${PORT}
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", PORT, "--log-level", "error"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8081", "--log-level", "error"]

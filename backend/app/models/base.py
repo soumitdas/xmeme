@@ -1,8 +1,8 @@
 from datetime import datetime, timezone
 from fastapi import HTTPException
 from bson import objectid
-from pydantic import BaseConfig, BaseModel
-
+from pydantic import BaseConfig, BaseModel, validator
+import re
 
 class ObjectId(str):
     @classmethod
@@ -20,6 +20,12 @@ class ObjectId(str):
         field_schema.update(type='string')
 
 class Base(BaseModel):
+    @validator("url", check_fields=False, pre=True)
+    def format_url(cls, url):
+        if not re.match("(?:http|ftp|https)://", url):
+            return "http://{}".format(url)
+        return url
+
     class Config(BaseConfig):
         allow_population_by_alias = True
         json_encoders = {
